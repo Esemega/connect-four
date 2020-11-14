@@ -60,17 +60,22 @@ def winning_move(board, piece):
                 return True
 
 def draw_board(board):
+    #draw the board and the free slots
     for col in range(NUMBER_OF_COLLUMNS):
         for row in range(NUMBER_OF_ROWS): 
             pygame.draw.rect(screen, BLUE, (col*SQUARESIZE, row*SQUARESIZE + SQUARE_OFFSET*SQUARESIZE, SQUARESIZE, SQUARESIZE))
-            pygame.draw.circle(screen, BLACK, (int(col*SQUARESIZE+CIRCLE_OFFSET), int(row*SQUARESIZE + SQUARE_OFFSET*SQUARESIZE + CIRCLE_OFFSET)), RADIUS )
+
+            free_slot_position = (int(col*SQUARESIZE+CIRCLE_OFFSET), int(row*SQUARESIZE + SQUARE_OFFSET*SQUARESIZE + CIRCLE_OFFSET))
+            pygame.draw.circle(screen, BLACK, free_slot_position, RADIUS )
     
+    #draw the pieces of each player
     for col in range(NUMBER_OF_COLLUMNS):
         for row in range(NUMBER_OF_ROWS):
+            pieze_position = (int(col*SQUARESIZE+CIRCLE_OFFSET), height - int(row*SQUARESIZE + CIRCLE_OFFSET))
             if board[row][col] == 1:
-                pygame.draw.circle(screen, RED, (int(col*SQUARESIZE+CIRCLE_OFFSET), height - int(row*SQUARESIZE + CIRCLE_OFFSET)), RADIUS )
+                pygame.draw.circle(screen, RED, pieze_position, RADIUS )
             elif board[row][col] == 2:
-                pygame.draw.circle(screen, GREEN, (int(col*SQUARESIZE+CIRCLE_OFFSET), height - int(row*SQUARESIZE + CIRCLE_OFFSET)), RADIUS )
+                pygame.draw.circle(screen, GREEN, pieze_position, RADIUS )
 
 
 
