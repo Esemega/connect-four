@@ -76,6 +76,7 @@ def draw_board(board):
                 pygame.draw.circle(screen, RED, pieze_position, RADIUS )
             elif board[row][col] == 2:
                 pygame.draw.circle(screen, GREEN, pieze_position, RADIUS )
+    pygame.display.update()
 
 
 
@@ -98,13 +99,25 @@ screen = pygame.display.set_mode(size)
 draw_board(board)
 pygame.display.update()
 
-while not game_over:
+myfont = pygame.font.SysFont("monospace", int(SQUARESIZE*0.8)) #font_name, pixels
 
+while not game_over:
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit(0)
-        
+
+        if event.type == pygame.MOUSEMOTION:
+            pygame.draw.rect(screen, BLACK, (0,0,width,SQUARESIZE))
+            posX = event.pos[0]
+            if turn == 0:
+                pygame.draw.circle(screen,RED,(posX,int(SQUARESIZE/2)),RADIUS)
+            else:
+                pygame.draw.circle(screen,GREEN,(posX,int(SQUARESIZE/2)),RADIUS)
+        pygame.display.update()
+
         if event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.draw.rect(screen, BLACK, (0,0,width,SQUARESIZE))
             #GRAPHIC VERSION
             #Player 1 turn
             if turn == 0:
@@ -116,7 +129,8 @@ while not game_over:
                     drop_piece(board, row, selected_collumn, PLAYER_1_PIECE)
                 
                     if winning_move(board, PLAYER_1_PIECE):
-                        print("PLAYER 1 WINS!!!! Congrats!!!!")
+                        label = myfont.render("Player 1 wins!", 1, RED)
+                        screen.blit(label, (5,5))
                         game_over = True
                 
             #Ask for Player 2 Input
@@ -129,15 +143,18 @@ while not game_over:
                     drop_piece(board, row, selected_collumn, PLAYER_2_PIECE)
 
                     if winning_move(board, PLAYER_2_PIECE):
-                        print("PLAYER 2 WINS!!!! Congrats!!!!")
+                        label = myfont.render("Player 2 wins!", 1, GREEN)
+                        screen.blit(label, (5,5))
                         game_over = True
             
             print_board(board)
             draw_board(board)
-            pygame.display.update()
 
             turn += 1
             turn = turn % 2
+
+            if game_over:
+                pygame.time.wait(3000)
 
             #COMAND LINE VERSION
             #Ask for Player 1 Input
